@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
@@ -19,6 +20,9 @@ public class RoomManager : MonoBehaviour
     public Room CurrentRoom;
 
     public GameObject RoomPrefab;
+
+    public RenderTexture roomART;
+    public RenderTexture roomBRT;
 
     public int Seed;
 
@@ -101,6 +105,25 @@ public class RoomManager : MonoBehaviour
         if (CurrentRoom != null) prevExit = CurrentRoom.Exit;
         Choices[0].Roll(prevExit);
         Choices[1].Roll(prevExit);
+
+        Invoke("TakeSnapshots" , 0.1f);
+    }
+
+    void TakeSnapshots()
+    {
+        RenderTexture.active = roomART;
+        Texture2D virtualPhoto = new Texture2D(roomART.width, roomART.height, TextureFormat.RGB24, false);
+        virtualPhoto.ReadPixels(new Rect(0, 0, roomART.width, roomART.height), 0, 0);
+        byte[] roomA = virtualPhoto.EncodeToPNG();
+
+        RenderTexture.active = roomBRT;
+        virtualPhoto.ReadPixels(new Rect(0, 0, roomBRT.width, roomBRT.height), 0, 0);
+        byte[] roomB = virtualPhoto.EncodeToPNG();
+
+        // Send the choices to SignalR here
+
+        //System.IO.File.WriteAllBytes("d:\\" + Guid.NewGuid() + ".png", roomA);
+
     }
 
     //public bool CanPlaceRoom(Room.Direction exit)
