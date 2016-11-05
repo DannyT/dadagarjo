@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Assets.Scripts.Models
 {
-    [Serializable] 
     public class Message
     {
-        public string H { get; set; }
-        public string M { get; set; }
-        public string[] A { get; set; }
+        public string H;
+        public string M;
+        public List<string> A;
     }
 }

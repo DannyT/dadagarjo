@@ -17,6 +17,7 @@ public class SocketController : MonoBehaviour
     // Use this for initialization
     public void Init(string hubUrl)
     {
+        mess = new Message();
         _gc = this.GetComponent<GameController>();
 
         connection = new HubConnection(hubUrl);
@@ -35,7 +36,7 @@ public class SocketController : MonoBehaviour
     {
         Debug.Log("Raw response:");
         Debug.Log(obj);
-        JsonUtility.FromJsonOverwrite(obj, mess);
+        mess = JsonUtility.FromJson<Message>(obj);
         Debug.Log("From Hub:");
         Debug.Log(mess.H);
         Debug.Log("From Method:");
