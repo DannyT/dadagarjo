@@ -47,6 +47,9 @@ h6 {
 img {
   max-width: 100%; }
 
+.hide {
+  display: none; }
+
 .title {
   text-align: center;
   text-transform: uppercase; }
