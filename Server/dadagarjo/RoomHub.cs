@@ -46,9 +46,17 @@ namespace dadagarjo
                 return;
 
             if (_voters.Any(x => x.Key == clientName))
+            {
+                var oldRoomName = _voters.Where(x => x.Key == clientName).First().Value;
+                var oldRoom = _rooms.Where(x => x.Key.RoomName == oldRoomName).First().Key;
+
                 _voters[clientName] = roomName;
+                _rooms[oldRoom] -= 1;
+            }
             else
+            { 
                 _voters.Add(Context.User.Identity.Name, roomName);
+            }
 
             _rooms[roomVote.Key] += 1;
 
