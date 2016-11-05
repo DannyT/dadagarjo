@@ -105,6 +105,12 @@
                 }
             });
 
+            hub.on('disableVotes', function () {
+                // reveal vote
+                $('.js-vote-wait').removeClass('hide');
+                $('.js-vote').addClass('hide');
+            });
+
             connection.start(function () {
                 console.log("Connected");
             });
