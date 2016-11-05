@@ -666,6 +666,8 @@ MonoBehaviour:
   PreviousRoom: {fileID: 0}
   CurrentRoom: {fileID: 0}
   RoomPrefab: {fileID: 1000011386809922, guid: 72dcc2b32b6a5b84497d897e8b0498de, type: 2}
+  roomART: {fileID: 8400000, guid: 3412ad5d829f7654d92d2f72eb9384bc, type: 2}
+  roomBRT: {fileID: 8400000, guid: 74b672a97a388f246bcefb39de081e77, type: 2}
   Seed: 0
 --- !u!4 &734462825
 Transform:
