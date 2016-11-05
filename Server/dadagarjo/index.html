@@ -96,6 +96,10 @@
                 $('.js-vote-wait').addClass('hide');
                 $('.js-vote').removeClass('hide');
 
+                // hide icon
+                var icon = $('.vote-icon');
+                icon.css('display', 'none');
+
             });
 
             hub.on('voteCount', function ( votes ) {
