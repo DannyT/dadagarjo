@@ -7,11 +7,13 @@
     <link href="Styles/styles.min.css" rel="stylesheet" />
 </head>
 <body>
-
     <div id="main">
         <h1 class="title">Your choice!</h1>
         
-        <div class="horizontal-split js-vote">
+        <div class="vote-wait js-vote-wait">
+            Vote in progress, please wait for next room...
+        </div>
+        <div class="vote horizontal-split js-vote hide">
             <div class="half-column">
                 <a class="js-room-btn-1"><img class="js-room-image-1" src="content/images/room-placeholder-1.png" /></a>
                 <img class="vote-icon" src="content/images/vote-icon.png" />
@@ -23,8 +25,6 @@
                 <span class="js-vote-count-2"></span>
             </div>
         </div>
-        
-        <div id="message">Nothing yet...</div>
     </div>
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
@@ -35,16 +35,16 @@
             $('.js-room-btn-1').click(event, function (event) {
                 var roomName = $(this).data('room-name');
                 hub.invoke('voteForRoom', roomName);
-                showVote('room1');
+                showVoteIcon('room1');
             });
 
             $('.js-room-btn-2').click(event, function (event) {
                 var roomName = $(this).data('room-name');
                 hub.invoke('voteForRoom', roomName);
-                showVote('room2');
+                showVoteIcon('room2');
             });
 
-            var showVote = function(vote)
+            var showVoteIcon = function(vote)
             {
                 var icon = $('.vote-icon');
                 icon.css('display', 'block');
@@ -71,9 +71,6 @@
 
             var connection = $.hubConnection();
             var hub = connection.createHubProxy("roomHub");
-            hub.on("setRoom", function (room) {
-                $("#message").text(room["RoomName"]);
-            });
 
             hub.on("showRoomOptions", function (room1, room1image, room2, room2image) {
 
@@ -95,7 +92,10 @@
                 $('.js-vote-count-2').text(0);
                 $('.js-vote-count-2').data('room-name-vote-2', room2["RoomName"] );
 
-                $("#message").text("Option 1 is called " + room1["RoomName"] + "<br />Option 2 is called " + room2["RoomName"]);
+                // reveal vote
+                $('.js-vote-wait').addClass('hide');
+                $('.js-vote').removeClass('hide');
+
             });
 
             hub.on('voteCount', function ( votes ) {
@@ -106,7 +106,7 @@
             });
 
             connection.start(function () {
-                $("#message").text("Connected");
+                console.log("Connected");
             });
         })
     </script>
