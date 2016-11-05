@@ -18,6 +18,7 @@ public class Room : MonoBehaviour {
     public Direction Exit;
 
     public bool IsActive = false;
+    public bool IsComplete = false;
     public bool CanExit = false;
 
     public bool PlayerIsInRoom = false;
@@ -38,7 +39,8 @@ public class Room : MonoBehaviour {
 	    if (!IsActive) return;
 
         // check number of enemies
-	    if (enemyContainer.childCount == 0 && CanExit)
+	    if (enemyContainer.childCount == 0) IsComplete = true;
+        if (IsComplete && CanExit)
 	    {
             if(Doors[(int)Exit].State == Door.DoorState.Closed)
 	           Doors[(int)Exit].SetState(Door.DoorState.Open);
@@ -114,4 +116,12 @@ public class Room : MonoBehaviour {
             PlayerIsInRoom = true;
         }
     }
+}
+
+public class RoomDto
+{
+    public string RoomName;
+    public int EntryLocation;
+    public int ExitLocation;
+    public bool HasReward;
 }

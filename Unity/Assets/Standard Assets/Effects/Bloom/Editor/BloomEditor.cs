@@ -22,14 +22,14 @@ namespace UnityStandardAssets.CinematicEffects
 
         void OnEnable()
         {
-            var settings = FieldFinder<Bloom>.GetField(x => x.settings);
-            foreach (var setting in settings.FieldType.GetFields())
-            {
-                var prop = settings.Name + "." + setting.Name;
-                m_Properties.Add(serializedObject.FindProperty(prop));
-            }
+        //    var settings = FieldFinder<Bloom>.GetField(x => x.settings);
+        //    foreach (var setting in settings.FieldType.GetFields())
+        //    {
+        //        var prop = settings.Name + "." + setting.Name;
+        //        m_Properties.Add(serializedObject.FindProperty(prop));
+        //    }
 
-            _graph = new BloomGraphDrawer();
+        //    _graph = new BloomGraphDrawer();
         }
 
         public override void OnInspectorGUI()
