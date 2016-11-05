@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Microsoft.AspNet.SignalR;
 using dadagarjo.Models;
 
@@ -71,6 +69,7 @@ namespace dadagarjo
         public void GetVotedForRoom()
         {
             Clients.Caller.SetRoom(_rooms.OrderByDescending(x => x.Value).First().Key);
+            Clients.Others.DisableVotes();
         }
     }
 }
