@@ -40,8 +40,8 @@ namespace dadagarjo
             if (_voters == null)
                 _voters = new Dictionary<string, string>();
 
-            var clientName = Context.User.Identity.Name;
-
+            var clientName = Context.ConnectionId;
+            
             if (_voters.Any(x => x.Key == clientName && x.Value == roomName))
                 return;
 
@@ -55,7 +55,7 @@ namespace dadagarjo
             }
             else
             { 
-                _voters.Add(Context.User.Identity.Name, roomName);
+                _voters.Add(clientName, roomName);
             }
 
             _rooms[roomVote.Key] += 1;
