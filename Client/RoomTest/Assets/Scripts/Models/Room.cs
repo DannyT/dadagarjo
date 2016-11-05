@@ -8,12 +8,9 @@ namespace Assets.Scripts.Models
     [Serializable]
     public class Room
     {
-        public string RoomName { get; set; }
-        
-        public int EntryLocation { get; set; }
-
-        public int ExitLocation { get; set; }
-
-        public bool HasReward { get; set; }
+        public string RoomName;
+        public int EntryLocation;
+        public int ExitLocation;
+        public bool HasReward;
     }
 }

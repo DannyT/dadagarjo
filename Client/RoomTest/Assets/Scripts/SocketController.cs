@@ -17,19 +17,23 @@ public class SocketController : MonoBehaviour
     // Use this for initialization
     public void Init(string hubUrl)
     {
-        mess = new Message();
         _gc = this.GetComponent<GameController>();
+        
+        HubConnection connection = new HubConnection(hubUrl);
+        IHubProxy proxy = connection.CreateProxy("RoomHub");
 
-        connection = new HubConnection(hubUrl);
-        IHubProxy proxy = connection.CreateProxy("roomHub");
-        connection.Closed += Connection_Closed;
-        connection.Received += Connection_Received;
+        // subscribe to event
+        proxy.Subscribe("SetRoom").Data += data =>
+        {
+            var _first = JsonUtility.FromJson<Room>(data[0].ToString());
+            Debug.Log(_first.RoomName);
+        };
 
-        Debug.Log("Trying to connect");
+
+
+        Debug.Log("Connecting... ");
         connection.Start();
-
-        Debug.Log("Invoking \"Hello\"");
-        proxy.Invoke("hello");
+        Debug.Log("done. Hit: ");
     }
 
     private void Connection_Received(string obj)
@@ -43,6 +47,13 @@ public class SocketController : MonoBehaviour
         Debug.Log(mess.M);
         Debug.Log("Data:");
         Debug.Log(mess.A);
+
+        if(mess.M.ToLower() == "setroom")
+        {
+            Debug.Log(((Room)mess.A[0]).RoomName);
+        }
+
+
     }
 
     private void SocketController_Data(object[] obj)
