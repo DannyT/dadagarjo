@@ -38,6 +38,13 @@ namespace dadagarjo
             var roomVote = _rooms.Where(x => x.Key.RoomName.ToLower() == roomName.ToLower()).First();
 
             _rooms[roomVote.Key] += 1;
+
+            List<Vote> votes = new List<Vote>();
+
+            votes.Add(new Vote { RoomName = _rooms.ElementAt(0).Key.RoomName, Votes = _rooms.ElementAt(0).Value });
+            votes.Add(new Vote { RoomName = _rooms.ElementAt(1).Key.RoomName, Votes = _rooms.ElementAt(1).Value });
+
+            Clients.All.VoteCount(votes);
         }
 
         public void GetVotedForRoom()
