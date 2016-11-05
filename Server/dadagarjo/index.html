@@ -7,22 +7,48 @@
 <body>
 
     <div id="message">Nothing yet...</div>
-
+    <ul>
+        <li><a id="room1">Room 1</a></li>
+        <li><a id="room2">Room 2</a></li>
+    </ul>
 
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
 
     <script type="text/javascript">
         $(function () {
+
+            $('#room1').click(event, function (event) {
+                var room = {
+                    RoomName: "Room 1",
+                    EntryLocation: 0,
+                    ExitLocation: 1,
+                    HasReward: true
+                };
+                hub.invoke('roomChoice', room);
+            });
+
+            $('#room2').click(event, function (event) {
+                var room = {
+                    RoomName: "Room 2",
+                    EntryLocation: 2,
+                    ExitLocation: 3,
+                    HasReward: false
+                };
+                hub.invoke('roomChoice', room);
+            });
+
             var connection = $.hubConnection();
             var hub = connection.createHubProxy("roomHub");
-            hub.on("hello", function (message) {
-                $("#message").append(message);
+            hub.on("setRoom", function (room) {
+                $("#message").text(room["RoomName"]);
             });
 
             connection.start(function () {
                 hub.invoke('hello');
-            })
+            });
+
+
         })
     </script>
 </body>
