@@ -3,6 +3,7 @@
 <head>
     <title></title>
 	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
@@ -11,6 +12,9 @@
         <li><a id="room1">Room 1</a></li>
         <li><a id="room2">Room 2</a></li>
     </ul>
+
+    <img id="room1image" />
+    <img id="room2image" />
 
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
@@ -44,11 +48,15 @@
                 $("#message").text(room["RoomName"]);
             });
 
-            connection.start(function () {
-                hub.invoke('hello');
+            hub.on("showRoomOptions", function (room1, room1image, room2, room2image) {
+                $("#message").text("Option 1 is called " + room1["RoomName"] + "<br />Option 2 is called " + room2["RoomName"]);
+                $('#room1image').attr('src', room1image);
+                $('#room2image').attr('src', room2image);
             });
 
-
+            connection.start(function () {
+                $("#message").text("Connected");
+            });
         })
     </script>
 </body>

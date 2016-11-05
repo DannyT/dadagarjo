@@ -15,9 +15,9 @@ namespace dadagarjo
             Clients.All.SetRoom(room);
         }
 
-        public void Hello()
+        public void SetRoomOptions(Room room1, string room1image, Room room2, string room2image)
         {
-            Clients.All.hello("woop");
+            Clients.Others.ShowRoomOptions(room1, room1image, room2, room2image);
         }
     }
 }
