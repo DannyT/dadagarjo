@@ -1,0 +1,74 @@
+﻿@import "vars";
+@import "mixins/_clearfix";
+
+/**
+ * -----------------------------------------------------------------------------
+ * $HTML
+ * -----------------------------------------------------------------------------
+ */
+
+body {
+    font-family: $font-family-default;
+    margin: 0;
+}
+
+
+/**
+ * -----------------------------------------------------------------------------
+ * $HEADING
+ * -----------------------------------------------------------------------------
+ */
+
+/**
+ * Styles for the `h1` to `h6` elements.
+ */
+
+/**
+ * 1. Reduces the spacing above & below the font.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $font-family-heading;
+	line-height: 1; /* 1. */
+
+	margin-top: 0;
+}
+
+img {
+    max-width:100%;
+}
+
+.title {
+    text-align:center;
+    text-transform:uppercase;
+}
+
+.horizontal-split {
+    margin:0;
+    padding:0;
+    width:100%;
+}
+
+.half-column {
+    display:inline-block;
+    width: 50%;
+}
+
+.vote-icon {
+    display:none;
+    top:50px;
+}
+
+.vote-icon-left {
+    position:absolute;
+    left:0;
+}
+
+.vote-icon-right {
+    position:absolute;
+    right:0;
+}

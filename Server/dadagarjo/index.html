@@ -4,43 +4,70 @@
     <title></title>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="Styles/styles.min.css" rel="stylesheet" />
 </head>
 <body>
 
-    <div id="message">Nothing yet...</div>
-    <ul>
-        <li><a id="room1">Room 1</a></li>
-        <li><a id="room2">Room 2</a></li>
-    </ul>
-
-    <img id="room1image" />
-    <img id="room2image" />
-
+    <div id="main">
+        <h1 class="title">Your choice!</h1>
+        
+        <div class="horizontal-split js-vote">
+            <div class="half-column">
+                <a class="js-room-btn-1"><img class="js-room-image-1" src="content/images/room-placeholder-1.png" /></a>
+                <img class="vote-icon" src="content/images/vote-icon.png" />
+                <h2 class="js-room-name-1">Room 1</h2>
+                <span class="js-vote-count-1"></span>
+            </div><div class="half-column">
+                <a class="js-room-btn-2"><img class="js-room-image-2" src="content/images/room-placeholder-2.png" /></a>
+                <h2 class="js-room-name-2">Room 2</h2>
+                <span class="js-vote-count-2"></span>
+            </div>
+        </div>
+        
+        <div id="message">Nothing yet...</div>
+    </div>
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
 
     <script type="text/javascript">
         $(function () {
 
-            $('#room1').click(event, function (event) {
-                var room = {
-                    RoomName: "Room 1",
-                    EntryLocation: 0,
-                    ExitLocation: 1,
-                    HasReward: true
-                };
-                hub.invoke('roomChoice', room);
+            $('.js-room-btn-1').click(event, function (event) {
+                var roomName = $(this).data('room-name');
+                hub.invoke('voteForRoom', roomName);
+                showVote('room1');
             });
 
-            $('#room2').click(event, function (event) {
-                var room = {
-                    RoomName: "Room 2",
-                    EntryLocation: 2,
-                    ExitLocation: 3,
-                    HasReward: false
-                };
-                hub.invoke('roomChoice', room);
+            $('.js-room-btn-2').click(event, function (event) {
+                var roomName = $(this).data('room-name');
+                hub.invoke('voteForRoom', roomName);
+                showVote('room2');
             });
+
+            var showVote = function(vote)
+            {
+                var icon = $('.vote-icon');
+                icon.css('display', 'block');
+
+                if (vote == 'room1')
+                {
+                    icon.removeClass('vote-icon-right');
+                    icon.addClass('vote-icon-left');
+                }
+                else
+                {
+                    icon.removeClass('vote-icon-left');
+                    icon.addClass('vote-icon-right');
+                }
+            }
+
+            var setVoteCount = function (roomName, voteCount) {
+                // ewwwwwwwww
+                if ($('.js-vote-count-1').data('room-name-vote-1') == roomName)
+                    $('.js-vote-count-1').text(voteCount);
+                else if ($('.js-vote-count-2').data('room-name-vote-2') == roomName)
+                    $('.js-vote-count-2').text(voteCount);
+            }
 
             var connection = $.hubConnection();
             var hub = connection.createHubProxy("roomHub");
@@ -49,9 +76,33 @@
             });
 
             hub.on("showRoomOptions", function (room1, room1image, room2, room2image) {
+
+                // set room titles
+                $('.js-room-name-1').html(room1["RoomName"]);
+                $('.js-room-name-2').html(room2["RoomName"]);
+
+                // set room name data
+                $('.js-room-btn-1').data('room-name', room1["RoomName"]);
+                $('.js-room-btn-2').data('room-name', room2["RoomName"]);
+
+                // set titles
+                $('.js-room-image-1').attr('src', room1image);
+                $('.js-room-image-2').attr('src', room2image);
+
+                // set vote count
+                $('.js-vote-count-1').text(0);
+                $('.js-vote-count-1').data('room-name-vote-1', room1["RoomName"] );
+                $('.js-vote-count-2').text(0);
+                $('.js-vote-count-2').data('room-name-vote-2', room2["RoomName"] );
+
                 $("#message").text("Option 1 is called " + room1["RoomName"] + "<br />Option 2 is called " + room2["RoomName"]);
-                $('#room1image').attr('src', room1image);
-                $('#room2image').attr('src', room2image);
+            });
+
+            hub.on('voteCount', function ( votes ) {
+                for(var i=0; i<votes.length; i++)
+                {
+                    setVoteCount(votes[i]["RoomName"], votes[i]["Votes"]);
+                }
             });
 
             connection.start(function () {

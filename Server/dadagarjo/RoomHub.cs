@@ -13,7 +13,7 @@ namespace dadagarjo
 
         public RoomHub()
         {
-            _rooms = new Dictionary<Room, int>();
+            
         }
         
         public void RoomChoice(Room room)
@@ -23,7 +23,7 @@ namespace dadagarjo
 
         public void SetRoomOptions(Room room1, string room1image, Room room2, string room2image)
         {
-            _rooms.Clear();
+            _rooms = new Dictionary<Room, int>();
             _rooms.Add(room1, 0);
             _rooms.Add(room2, 0);
 
