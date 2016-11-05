@@ -60,8 +60,10 @@ namespace dadagarjo
 
             List<Vote> votes = new List<Vote>();
 
-            votes.Add(new Vote { RoomName = _rooms.ElementAt(0).Key.RoomName, Votes = _rooms.ElementAt(0).Value });
-            votes.Add(new Vote { RoomName = _rooms.ElementAt(1).Key.RoomName, Votes = _rooms.ElementAt(1).Value });
+            foreach(var room in _rooms)
+            {
+                votes.Add(new Vote { RoomName = room.Key.RoomName, Votes = room.Value });
+            }
 
             Clients.All.VoteCount(votes);
         }
