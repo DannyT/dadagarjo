@@ -17,7 +17,7 @@ public class Door : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-	    //SetState(DoorState.Wall);
+	    SetState(State);
 	}
 
     public void SetState(DoorState state)
@@ -25,8 +25,8 @@ public class Door : MonoBehaviour {
         State = state;
 
         transform.FindChild("Wall").gameObject.SetActive(false);
-        transform.FindChild("DoorClosed").gameObject.SetActive(false);
-        transform.FindChild("DoorOpen").gameObject.SetActive(false);
+        transform.FindChild("Closed").gameObject.SetActive(false);
+        transform.FindChild("Open").gameObject.SetActive(false);
         switch (State)
         {
             case DoorState.Wall:
@@ -34,10 +34,10 @@ public class Door : MonoBehaviour {
 
                 break;
             case DoorState.Closed:
-                 transform.FindChild("DoorClosed").gameObject.SetActive(true);
+                 transform.FindChild("Closed").gameObject.SetActive(true);
                 break;
             case DoorState.Open:
-                transform.FindChild("DoorOpen").gameObject.SetActive(true);
+                transform.FindChild("Open").gameObject.SetActive(true);
 
                 break;
             default:
