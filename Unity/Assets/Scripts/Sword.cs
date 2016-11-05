@@ -1,29 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sword : MonoBehaviour {
+public class Sword : MonoBehaviour
+{
+
+    Animator anim;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    anim = GetComponentInParent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
 
     public void Hit()
     {
-        transform.GetComponentInParent<Player>().Attack();
+        
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         Enemy e = col.transform.GetComponent<Enemy>();
-        if (e != null && GetComponent<Animation>().isPlaying)
+        if (e != null)
         {
-            e.HitBySword();
+            AnimatorClipInfo[] ainfo =anim.GetCurrentAnimatorClipInfo(0);
+
+
+            if (ainfo.Length>0)
+            {
+                for (int idx = 0; idx < ainfo.Length; idx++)
+                {
+                    //ebug.Log(ainfo[idx].clip.name);
+                    if(ainfo[idx].clip.name=="attack_idle") e.HitBySword();
+                }
+            }
+
+            
         }
     }
 }
