@@ -25,10 +25,11 @@ public class Room : MonoBehaviour {
     public Door[] Doors = new Door[4];
 
     Transform enemyContainer;
+    Transform propsContainer;
 
     // Use this for initialization
     void Start () {
-        enemyContainer = transform.FindChild("Enemies");
+
     }
 	
 	// Update is called once per frame
@@ -50,6 +51,9 @@ public class Room : MonoBehaviour {
 
     public void Roll(Direction prevExit)
     {
+        enemyContainer = transform.FindChild("Enemies");
+        propsContainer = transform.FindChild("Props");
+
         switch (prevExit)
         {
             case Direction.North:
@@ -77,6 +81,14 @@ public class Room : MonoBehaviour {
 
         Doors[(int) Entrance].SetState(Door.DoorState.Open);
         Doors[(int) Exit].SetState(Door.DoorState.Closed);
+
+        // Enemies
+        for(int i=0;i<enemyContainer.childCount; i++)
+            if(Random.Range(0,2)==0) Destroy(enemyContainer.GetChild(i).gameObject);
+
+        // Props
+        for (int i = 0; i <propsContainer.childCount; i++)
+            if (Random.Range(0, 10)<9) Destroy(propsContainer.GetChild(i).gameObject);
     }
 
     void OnTriggerEnter(Collider col)
