@@ -4,22 +4,21 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 
-    Transform sword;
-    Animation swordAnim;
+    Transform hand;
+    Animator swordAnim;
 
 	// Use this for initialization
 	void Start ()
 	{
-	    sword = transform.FindChild("FirstPersonCharacter/Sword");
-	    swordAnim = sword.GetComponent<Animation>();
+	    hand = transform.FindChild("FirstPersonCharacter/Hand");
+	    swordAnim = hand.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	    if (Input.GetButtonDown("Attack"))
         {
-            if(!swordAnim.isPlaying)
-	            swordAnim.Play("Sword_Swing");
+	            swordAnim.Play("attack",0);
         }
 	}
 
