@@ -251,6 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-*.Library/metadata/
-*.Library/ShaderCache/
-*.Library/UnityAssemblies/
+Unity/Library/metadata/
+Unity/Library/ShaderCache/
+Unity/Library/UnityAssemblies/
