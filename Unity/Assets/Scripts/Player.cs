@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
 	            swordAnim.Play("attack",0);
         }
 
+	    HP = Mathf.Clamp(HP, 0f, MaxHP);
+
 	    HealthSlider.value = HP;
 	}
 
