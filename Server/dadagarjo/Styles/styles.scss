@@ -99,38 +99,43 @@ img {
     background-color:$color-white-transparent;
     position:absolute;
     height: 50px;
-    width: 50%;
+    width: 70%;
 }
 
 .vote-bar-1 {
-    border-radius: 20px 0 0 20px;
+    border-radius: 50px 0 0 50px;
     right:0;
 }
 
 .vote-bar-2 {
-    border-radius: 0 20px 20px 0;
+    border-radius: 0 50px 50px 0;
     left:0;
 }
 
 .vote-icon {
     position : absolute;
-    top:0;
+    top:3px;
 }
 
 .vote-icon-left {
-    left:10px;
+    left:5px;
 }
 
 .vote-icon-right {
-    right:10px;
+    right:5px;
 }
 
 .vote-count {
     color:$color-brand;
     font-size: 32px;
     margin-top: 10px;
-    text-align:center;
 }
 .vote-count-1 {
-    margin-left : 65px;
+    margin-right: 5px;
+    text-align:right;
+}
+
+.vote-count-2 {
+    margin-left: 5px;
+    text-align:left;
 }
