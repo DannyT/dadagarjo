@@ -56,7 +56,11 @@
                 }
                 icon.removeClass('hide');
 
-                hub.invoke('voteForRoom', roomName);
+                hub.invoke('voteForRoom', roomName).done(function () {
+                    console.log('Vote for Room successful');
+                }).fail(function (error) {
+                    console.log('Vote for Room faled with error:' + error);
+                });
             });
 
             var hideVoteIcon = function () {
@@ -125,8 +129,10 @@
             /**
             * Starts up connection to SignalR
             */
-            connection.start(function () {
-                console.log("Connected");
+            connection.start().done(function () {
+                console.log('Connection successful');
+            }).fail(function (error) {
+                console.log('Connection faled with error:' + error);
             });
         });
     </script>
