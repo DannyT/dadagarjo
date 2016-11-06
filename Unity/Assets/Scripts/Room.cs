@@ -57,9 +57,12 @@ public class Room : MonoBehaviour {
 	    }
 
         // Close the door behind the player
-        if(PlayerIsInRoom && Doors[(int)Entrance].State == Door.DoorState.Open)
-            Doors[(int)Entrance].SetState(Door.DoorState.Closed);
-    }
+	    if (PlayerIsInRoom && Doors[(int) Entrance].State == Door.DoorState.Open)
+	    {
+	        Doors[(int) Entrance].SetState(Door.DoorState.Closed);
+	        Player.Instance.RoomsCompleted++;
+	    }
+	}
 
     public void Roll(Direction prevExit)
     {

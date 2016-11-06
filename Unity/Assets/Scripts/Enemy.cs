@@ -5,6 +5,8 @@ public class Enemy : MonoBehaviour
 {
     public Player Player;
 
+    public ParticleSystem DeathParticles;
+
     public float MaxHP = 10f;
     public float HP = 10f;
 
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
     void Start ()
 	{
 	    Player = FindObjectOfType<Player>();
+        DeathParticles = GameObject.Find("CactusDieParticles").GetComponent<ParticleSystem>();
 	    HP = MaxHP;
 
 	    rb = GetComponent<Rigidbody>();
@@ -30,10 +33,13 @@ public class Enemy : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    if(HP<=0f)
+	    if (HP <= 0f)
+	    {
             Destroy(gameObject);
+	        DeathParticles.transform.position = transform.position + new Vector3(0f, 1.5f, 0f);
+            DeathParticles.Emit(100);
+	    }
 
-        
 
         if (!IsAttacking)
 	    {

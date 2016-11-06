@@ -40,6 +40,7 @@ public class Sword : MonoBehaviour
                     {
                         e.Hit();
                         Particles.Emit(50);
+                        Player.Instance.Sounds["impact_3"].Play();
                     }
                 }
             }
