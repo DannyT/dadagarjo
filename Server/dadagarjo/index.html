@@ -17,7 +17,7 @@
 
         <div class="vote horizontal-split js-vote hide">
             <div class="half-column">
-                <a class="js-room-btn js-room-btn-1">
+                <a class="js-room-btn js-room-btn-1 room-button">
                     <div class="room-name-bar room-name-bar-1">
                         <h2 class="js-room-name-1 room-name room-name-1">Room 1</h2>
                     </div>
@@ -30,7 +30,7 @@
                     </div>
                 </a>
             </div><div class="half-column">
-                <a class="js-room-btn js-room-btn-2">
+                <a class="js-room-btn js-room-btn-2 room-button">
                     <div class="room-name-bar room-name-bar-2">
                         <h2 class="js-room-name-2 room-name room-name-2">Room 2</h2>
                     </div>
@@ -44,6 +44,7 @@
                 </a>
             </div>
         </div>
+        <div class="js-player-health player-health hide"><h2 class="js-health-text health-text">Health: 100%</h2></div>
     </div>
 
     <script src="Scripts/jquery-1.6.4.js"></script>
@@ -117,6 +118,9 @@
                 // reveal vote
                 $('.js-vote').removeClass('hide');
                 $('.js-vote-wait').addClass('hide');
+                
+                // show health
+                $('.js-player-health').removeClass('hide');
 
                 // hide vote bar
                 hideVoteBar();
@@ -139,6 +143,12 @@
                 // hide vote
                 $('.js-vote-wait').removeClass('hide');
                 $('.js-vote').addClass('hide');
+                //$('.js-player-health').addClass('hide');
+            });
+
+            hub.on('setGameState', function (state) {
+                $('.js-player-health').css('width', state.Health + '%');
+                $('.js-health-text').text('Health: ' + state.Health + '%');
             });
 
             /**

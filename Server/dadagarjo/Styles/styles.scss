@@ -67,6 +67,10 @@ img {
     margin-top: 5px;
 }
 
+.room-button {
+    cursor: pointer;
+}
+
 .room-name-bar {
     padding:5px;
 }
@@ -138,4 +142,15 @@ img {
 .vote-count-2 {
     margin-left: 5px;
     text-align:left;
+}
+
+.player-health {
+    background-color:$color-blue;
+    bottom:0;
+    color:$color-grey-light;
+    height:50px;
+    position:fixed;
+    width:100%;
+    float:left;
+    white-space:nowrap;
 }
