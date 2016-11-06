@@ -13,65 +13,68 @@
         <div class="vote-wait js-vote-wait">
             Vote in progress, please wait for next room...
         </div>
+
         <div class="vote horizontal-split js-vote hide">
             <div class="half-column">
-                <a class="js-room-btn-1"><img class="js-room-image-1" src="content/images/room-placeholder-1.png" /></a>
-                <img class="vote-icon" src="content/images/vote-icon.png" />
+                <a class="js-room-btn js-room-btn-1">
+                    <img class="js-room-image-1" src="content/images/room-placeholder-1.png" />
+                </a>
                 <h2 class="js-room-name-1">Room 1</h2>
                 <span class="js-vote-count-1"></span>
             </div><div class="half-column">
-                <a class="js-room-btn-2"><img class="js-room-image-2" src="content/images/room-placeholder-2.png" /></a>
+                <a class="js-room-btn js-room-btn-2">
+                    <img class="js-room-image-2" src="content/images/room-placeholder-2.png" />
+                </a>
                 <h2 class="js-room-name-2">Room 2</h2>
                 <span class="js-vote-count-2"></span>
             </div>
+            <img class="js-vote-icon vote-icon hide" src="content/images/vote-icon.png" />
         </div>
     </div>
+
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
 
     <script type="text/javascript">
         $(function () {
 
-            $('.js-room-btn-1').click(event, function (event) {
-                var roomName = $(this).data('room-name');
-                hub.invoke('voteForRoom', roomName);
-                showVoteIcon('room1');
-            });
-
-            $('.js-room-btn-2').click(event, function (event) {
-                var roomName = $(this).data('room-name');
-                hub.invoke('voteForRoom', roomName);
-                showVoteIcon('room2');
-            });
-
-            var showVoteIcon = function(vote)
-            {
-                var icon = $('.vote-icon');
-                icon.css('display', 'block');
-
-                if (vote == 'room1')
-                {
-                    icon.removeClass('vote-icon-right');
-                    icon.addClass('vote-icon-left');
-                }
-                else
-                {
-                    icon.removeClass('vote-icon-left');
-                    icon.addClass('vote-icon-right');
-                }
-            }
-
-            var setVoteCount = function (roomName, voteCount) {
-                // ewwwwwwwww
-                if ($('.js-vote-count-1').data('room-name-vote-1') == roomName)
-                    $('.js-vote-count-1').text(voteCount);
-                else if ($('.js-vote-count-2').data('room-name-vote-2') == roomName)
-                    $('.js-vote-count-2').text(voteCount);
-            }
-
             var connection = $.hubConnection();
             var hub = connection.createHubProxy("roomHub");
 
+            $('.js-room-btn').click(event, function (event) {
+                var btn = $(this);
+                var roomName = btn.data('room-name');
+                var icon = $('.vote-icon');
+
+                if (btn.hasClass == 'js-room-btn-1') {
+                    icon.removeClass('vote-icon-right');
+                    icon.addClass('vote-icon-left');
+                }
+                else {
+                    icon.removeClass('vote-icon-left');
+                    icon.addClass('vote-icon-right');
+                }
+                icon.removeClass('hide');
+
+                hub.invoke('voteForRoom', roomName);
+            });
+
+            var hideVoteIcon = function () {
+                var icon = $('.vote-icon');
+                icon.addClass('hide');
+            }
+
+            var setVoteCount = function (roomName, voteCount) {
+                if ($('.js-vote-count-1').data('room-name') == roomName)
+                    $('.js-vote-count-1').text(voteCount);
+                else if ($('.js-vote-count-2').data('room-name') == roomName)
+                    $('.js-vote-count-2').text(voteCount);
+            }
+
+            /**
+            * Called when player completes a room
+            * Unity will generate next two room optiosn and pass through SignalR
+            */
             hub.on("showRoomOptions", function (room1, room1image, room2, room2image) {
 
                 // set room titles
@@ -88,37 +91,44 @@
 
                 // set vote count
                 $('.js-vote-count-1').text(0);
-                $('.js-vote-count-1').data('room-name-vote-1', room1["RoomName"] );
+                $('.js-vote-count-1').data('room-name', room1["RoomName"]);
                 $('.js-vote-count-2').text(0);
-                $('.js-vote-count-2').data('room-name-vote-2', room2["RoomName"] );
+                $('.js-vote-count-2').data('room-name', room2["RoomName"]);
 
                 // reveal vote
                 $('.js-vote-wait').addClass('hide');
                 $('.js-vote').removeClass('hide');
 
                 // hide icon
-                var icon = $('.vote-icon');
-                icon.css('display', 'none');
+                hideVoteIcon();
 
             });
 
-            hub.on('voteCount', function ( votes ) {
-                for(var i=0; i<votes.length; i++)
-                {
+            /**
+            * Called when any connected user votes for a room
+            */
+            hub.on('voteCount', function (votes) {
+                for (var i = 0; i < votes.length; i++) {
                     setVoteCount(votes[i]["RoomName"], votes[i]["Votes"]);
                 }
             });
 
+            /**
+            * Called when user completes their current room and loads the winning vote
+            */
             hub.on('disableVotes', function () {
                 // reveal vote
                 $('.js-vote-wait').removeClass('hide');
                 $('.js-vote').addClass('hide');
             });
 
+            /**
+            * Starts up connection to SignalR
+            */
             connection.start(function () {
                 console.log("Connected");
             });
-        })
+        });
     </script>
 </body>
 </html>

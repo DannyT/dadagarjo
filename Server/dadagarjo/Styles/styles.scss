@@ -63,16 +63,15 @@ img {
 }
 
 .vote-icon {
-    display:none;
-    top:50px;
+    bottom:50px;
 }
 
 .vote-icon-left {
     position:absolute;
-    left:0;
+    left:100px;
 }
 
 .vote-icon-right {
     position:absolute;
-    right:0;
+    right:100px;
 }
