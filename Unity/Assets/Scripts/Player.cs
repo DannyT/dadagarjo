@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public float Damage = 1f;
 
     public Slider HealthSlider;
+    public Animation Hitfade;
 
     Transform hand;
     Animator swordAnim;
@@ -56,6 +57,8 @@ public class Player : MonoBehaviour
 	    HP = Mathf.Clamp(HP, 0f, MaxHP);
 
 	    HealthSlider.value = HP;
+
+        if(HP<=0f) Application.Quit();
 	}
 
     public void Attack()
@@ -79,6 +82,7 @@ public class Player : MonoBehaviour
         if (e != null && e.IsAttacking && col.name=="EnemyAttack")
         {
             Debug.Log("player is attacked!");
+            Hitfade.Play();
             //rb.AddForce((transform.position-e.transform.position).normalized * 100f, ForceMode.Impulse);
             HP -= e.Damage;
         }
