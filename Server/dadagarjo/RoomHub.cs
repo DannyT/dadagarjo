@@ -73,5 +73,10 @@ namespace dadagarjo
             Clients.Caller.SetRoom(_rooms.OrderByDescending(x => x.Value).First().Key);
             Clients.Others.DisableVotes();
         }
+
+        public void SetGameState(GameState state)
+        {
+            Clients.Others.SetGameState(state);
+        }
     }
 }
