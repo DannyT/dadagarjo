@@ -26,7 +26,11 @@ public class RoomManager : MonoBehaviour
 
     public int Seed;
 
+
     List<Room> oldRooms = new List<Room>();
+
+    bool hasSentFirstRooms = false;
+    bool hasAskedForResults = false;
 
 	// Use this for initialization
 	void Start ()
@@ -44,11 +48,19 @@ public class RoomManager : MonoBehaviour
 
     // Update is called once per frame
 	void Update () {
-	   
+	  // if(GetComponent<SocketController>().connection.IsActive && !hasSentFirstRooms)
+         //   TakeSnapshots();
+	    if (!hasAskedForResults && CurrentRoom.IsComplete)
+	    {
+	        hasAskedForResults = true;
+            Debug.Log("asked for result");
+            GetComponent<SocketController>().proxy.Invoke("GetVotedForRoom");
+	    }
 	}
 
     public void SpawnNext(int choice)
     {
+        hasAskedForResults = false;
         //if(PreviousRoom!=null) Destroy(PreviousRoom.gameObject);
         if (CurrentRoom != null) PreviousRoom = CurrentRoom;
         CurrentRoom = Choices[choice];
@@ -111,16 +123,48 @@ public class RoomManager : MonoBehaviour
 
     void TakeSnapshots()
     {
+        if (!GetComponent<SocketController>().connection.IsActive)
+        {
+            Invoke("TakeSnapshots", 0.1f);
+            return;
+
+        }
+
+
         RenderTexture.active = roomART;
         Texture2D virtualPhoto = new Texture2D(roomART.width, roomART.height, TextureFormat.RGB24, false);
         virtualPhoto.ReadPixels(new Rect(0, 0, roomART.width, roomART.height), 0, 0);
-        byte[] roomA = virtualPhoto.EncodeToPNG();
+        byte[] roomA = virtualPhoto.EncodeToJPG();
+        var rm1i = "data:image/jpg;base64," + Convert.ToBase64String(roomA);
+        
 
         RenderTexture.active = roomBRT;
         virtualPhoto.ReadPixels(new Rect(0, 0, roomBRT.width, roomBRT.height), 0, 0);
-        byte[] roomB = virtualPhoto.EncodeToPNG();
+        byte[] roomB = virtualPhoto.EncodeToJPG();
+        var rm2i = "data:image/jpg;base64," + Convert.ToBase64String(roomB);
+
+        var dto1 = new RoomDto()
+        {
+            EntryLocation = (int) Choices[0].Entrance,
+            ExitLocation = (int) Choices[0].Exit,
+            HasReward = false,
+            RoomName = "RoomA"
+        };
+        var dto2 = new RoomDto()
+        {
+            EntryLocation = (int)Choices[1].Entrance,
+            ExitLocation = (int)Choices[1].Exit,
+            HasReward = false,
+            RoomName = "RoomB"
+        };
 
         // Send the choices to SignalR here
+       // GetComponent<SocketController>().Init(dto1, dto2, rm1i, rm2i);
+      // if(hasSentFirstRooms)
+            GetComponent<SocketController>().SendRooms(dto1, dto2, rm1i, rm2i);
+
+        hasSentFirstRooms = true;
+
 
         //System.IO.File.WriteAllBytes("d:\\" + Guid.NewGuid() + ".png", roomA);
 
