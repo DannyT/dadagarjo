@@ -39,7 +39,17 @@ public class Room : MonoBehaviour {
 	    if (!IsActive) return;
 
         // check number of enemies
+	    IsComplete = false;
 	    if (enemyContainer.childCount == 0) IsComplete = true;
+	    else IsComplete = false;
+
+	    for (int i = 0; i < propsContainer.childCount; i++)
+	    {
+	        var chest = propsContainer.GetChild(i).GetComponent<Chest>();
+	        if (chest != null &&
+	            !chest.IsOpen) IsComplete = false;
+	    }
+
         if (IsComplete && CanExit)
 	    {
             if(Doors[(int)Exit].State == Door.DoorState.Closed)
