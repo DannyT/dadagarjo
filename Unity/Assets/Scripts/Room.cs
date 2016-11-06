@@ -104,6 +104,11 @@ public class Room : MonoBehaviour {
         // Props
         for (int i = 0; i <propsContainer.childCount; i++)
             if (Random.Range(0, 10)<9) Destroy(propsContainer.GetChild(i).gameObject);
+
+        // Internal walls
+        var wallContainer = transform.FindChild("Internals");
+        var wall = Random.Range(-2, wallContainer.childCount);
+        if(wall>=0) wallContainer.GetChild(wall).gameObject.SetActive(true);
     }
 
     void OnTriggerEnter(Collider col)
