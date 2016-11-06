@@ -84,12 +84,12 @@ namespace UnityStandardAssets.CinematicEffects
 
         void OnEnable()
         {
-            var settings = FieldFinder<ScreenSpaceReflection>.GetField(x => x.settings);
-            foreach (var setting in settings.FieldType.GetFields())
-            {
-                var prop = settings.Name + "." + setting.Name;
-                m_Properties.Add(serializedObject.FindProperty(prop));
-            }
+            //var settings = FieldFinder<ScreenSpaceReflection>.GetField(x => x.settings);
+            //foreach (var setting in settings.FieldType.GetFields())
+            //{
+            //    var prop = settings.Name + "." + setting.Name;
+            //    m_Properties.Add(serializedObject.FindProperty(prop));
+            //}
         }
 
         public override void OnInspectorGUI()

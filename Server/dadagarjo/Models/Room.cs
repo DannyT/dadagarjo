@@ -7,12 +7,12 @@ namespace dadagarjo.Models
 {
     public class Room
     {
-        public string RoomName { get; set; }
+        public string RoomName;
 
-        public int EntryLocation { get; set; }
+        public int EntryLocation;
 
-        public int ExitLocation { get; set; }
+        public int ExitLocation;
 
-        public bool HasReward { get; set; }
+        public bool HasReward;
     }
 }
