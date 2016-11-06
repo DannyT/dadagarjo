@@ -24,9 +24,10 @@
 
                     <img class="js-room-image-1 room-image" src="content/images/room-placeholder-1.png" />
 
-                    <img class="js-vote-icon-1 vote-icon vote-icon-left hide" src="content/images/vote-icon.png" />
-
-                    <span class="js-vote-count-1"></span>
+                    <div class="js-vote-bar-1 vote-bar vote-bar-1 hide">
+                        <img class="js-vote-icon-1 vote-icon vote-icon-left invisible" src="content/images/vote-icon.png" />
+                        <h2 class="js-vote-count-1 vote-count vote-count-1"></h2>
+                    </div>
                 </a>
             </div><div class="half-column">
                 <a class="js-room-btn js-room-btn-2">
@@ -36,9 +37,10 @@
 
                     <img class="js-room-image-2 room-image" src="content/images/room-placeholder-2.png" />
 
-                    <img class="js-vote-icon-2 vote-icon vote-icon-right hide" src="content/images/vote-icon.png" />
-
-                    <span class="js-vote-count-2"></span>
+                    <div class="js-vote-bar-2 vote-bar vote-bar-2 hide">
+                        <h2 class="js-vote-count-2 vote-count vote-count-2"></h2>
+                        <img class="js-vote-icon-2 vote-icon vote-icon-right invisible" src="content/images/vote-icon.png" />
+                    </div>
                 </a>
             </div>
         </div>
@@ -57,13 +59,16 @@
                 var btn = $(this);
                 var roomName = btn.data('room-name');
 
+                $('.js-vote-bar-1').removeClass('hide');
+                $('.js-vote-bar-2').removeClass('hide');
+
                 if (btn.hasClass('js-room-btn-1')) {
-                    $('.js-vote-icon-1').removeClass('hide');
-                    $('.js-vote-icon-2').addClass('hide');
+                    $('.js-vote-icon-1').removeClass('invisible');
+                    $('.js-vote-icon-2').addClass('invisible');
                 }
                 else {
-                    $('.js-vote-icon-1').addClass('hide');
-                    $('.js-vote-icon-2').removeClass('hide');
+                    $('.js-vote-icon-1').addClass('invisible');
+                    $('.js-vote-icon-2').removeClass('invisible');
                 }
 
                 hub.invoke('voteForRoom', roomName).done(function () {
@@ -73,9 +78,9 @@
                 });
             });
 
-            var hideVoteIcon = function () {
-                var icon = $('.vote-icon');
-                icon.addClass('hide');
+            var hideVoteBar = function () {
+                $('.js-vote-bar-1').addClass('hide');
+                $('.js-vote-bar-2').addClass('hide');
             }
 
             var setVoteCount = function (roomName, voteCount) {
@@ -110,11 +115,11 @@
                 $('.js-vote-count-2').data('room-name', room2["RoomName"]);
 
                 // reveal vote
-                $('.js-vote-wait').addClass('hide');
                 $('.js-vote').removeClass('hide');
+                $('.js-vote-wait').addClass('hide');
 
-                // hide icon
-                hideVoteIcon();
+                // hide vote bar
+                hideVoteBar();
 
             });
 
@@ -131,7 +136,7 @@
             * Called when user completes their current room and loads the winning vote
             */
             hub.on('disableVotes', function () {
-                // reveal vote
+                // hide vote
                 $('.js-vote-wait').removeClass('hide');
                 $('.js-vote').addClass('hide');
             });
