@@ -46,6 +46,10 @@ img {
     display:none;
 }
 
+.room-image {
+    width:100%;
+}
+
 .title {
     text-align:center;
     text-transform:uppercase;
@@ -59,19 +63,19 @@ img {
 
 .half-column {
     display:inline-block;
+    position:relative;
     width: 50%;
 }
 
 .vote-icon {
-    bottom:50px;
+    bottom:70px;
+    position:absolute;
 }
 
 .vote-icon-left {
-    position:absolute;
-    left:100px;
+    right:15px;
 }
 
 .vote-icon-right {
-    position:absolute;
-    right:100px;
+    left:10px;
 }

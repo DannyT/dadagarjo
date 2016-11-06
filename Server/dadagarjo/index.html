@@ -17,18 +17,19 @@
         <div class="vote horizontal-split js-vote hide">
             <div class="half-column">
                 <a class="js-room-btn js-room-btn-1">
-                    <img class="js-room-image-1" src="content/images/room-placeholder-1.png" />
+                    <img class="js-room-image-1 room-image" src="content/images/room-placeholder-1.png" />
                 </a>
+                <img class="js-vote-icon-1 vote-icon vote-icon-left hide" src="content/images/vote-icon.png" />
                 <h2 class="js-room-name-1">Room 1</h2>
                 <span class="js-vote-count-1"></span>
             </div><div class="half-column">
                 <a class="js-room-btn js-room-btn-2">
-                    <img class="js-room-image-2" src="content/images/room-placeholder-2.png" />
+                    <img class="js-room-image-2 room-image" src="content/images/room-placeholder-2.png" />
                 </a>
+                <img class="js-vote-icon-2 vote-icon vote-icon-right hide" src="content/images/vote-icon.png" />
                 <h2 class="js-room-name-2">Room 2</h2>
                 <span class="js-vote-count-2"></span>
             </div>
-            <img class="js-vote-icon vote-icon hide" src="content/images/vote-icon.png" />
         </div>
     </div>
 
@@ -44,17 +45,15 @@
             $('.js-room-btn').click(event, function (event) {
                 var btn = $(this);
                 var roomName = btn.data('room-name');
-                var icon = $('.vote-icon');
 
                 if (btn.hasClass('js-room-btn-1')) {
-                    icon.removeClass('vote-icon-right');
-                    icon.addClass('vote-icon-left');
+                    $('.js-vote-icon-1').removeClass('hide');
+                    $('.js-vote-icon-2').addClass('hide');
                 }
                 else {
-                    icon.removeClass('vote-icon-left');
-                    icon.addClass('vote-icon-right');
+                    $('.js-vote-icon-1').addClass('hide');
+                    $('.js-vote-icon-2').removeClass('hide');
                 }
-                icon.removeClass('hide');
 
                 hub.invoke('voteForRoom', roomName).done(function () {
                     console.log('Vote for Room successful');
