@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class SocketController : MonoBehaviour
 {
+    public static SocketController Instance;
 
     //public GameController _gc;
 
@@ -23,6 +24,7 @@ public class SocketController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
+        Instance = this;
        // _gc = this.GetComponent<GameController>();
         
         connection = new HubConnection(ServerURL);

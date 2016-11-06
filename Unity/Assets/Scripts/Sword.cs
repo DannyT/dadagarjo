@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Sword : MonoBehaviour
 {
+    public ParticleSystem Particles;
 
     Animator anim;
 
@@ -35,7 +36,11 @@ public class Sword : MonoBehaviour
                 for (int idx = 0; idx < ainfo.Length; idx++)
                 {
                     //ebug.Log(ainfo[idx].clip.name);
-                    if(ainfo[idx].clip.name=="attack_idle") e.HitBySword();
+                    if (ainfo[idx].clip.name == "attack_idle")
+                    {
+                        e.Hit();
+                        Particles.Emit(50);
+                    }
                 }
             }
 
