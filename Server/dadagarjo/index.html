@@ -4,11 +4,12 @@
     <title></title>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href="Styles/styles.min.css" rel="stylesheet" />
 </head>
 <body>
     <div id="main">
-        <h1 class="title">Your choice!</h1>
+        <h1 class="title">Where next?</h1>
         
         <div class="vote-wait js-vote-wait">
             Vote in progress, please wait for next room...
@@ -17,18 +18,28 @@
         <div class="vote horizontal-split js-vote hide">
             <div class="half-column">
                 <a class="js-room-btn js-room-btn-1">
+                    <div class="room-name-bar room-name-bar-1">
+                        <h2 class="js-room-name-1 room-name room-name-1">Room 1</h2>
+                    </div>
+
                     <img class="js-room-image-1 room-image" src="content/images/room-placeholder-1.png" />
+
+                    <img class="js-vote-icon-1 vote-icon vote-icon-left hide" src="content/images/vote-icon.png" />
+
+                    <span class="js-vote-count-1"></span>
                 </a>
-                <img class="js-vote-icon-1 vote-icon vote-icon-left hide" src="content/images/vote-icon.png" />
-                <h2 class="js-room-name-1">Room 1</h2>
-                <span class="js-vote-count-1"></span>
             </div><div class="half-column">
                 <a class="js-room-btn js-room-btn-2">
+                    <div class="room-name-bar room-name-bar-2">
+                        <h2 class="js-room-name-2 room-name room-name-2">Room 2</h2>
+                    </div>
+
                     <img class="js-room-image-2 room-image" src="content/images/room-placeholder-2.png" />
+
+                    <img class="js-vote-icon-2 vote-icon vote-icon-right hide" src="content/images/vote-icon.png" />
+
+                    <span class="js-vote-count-2"></span>
                 </a>
-                <img class="js-vote-icon-2 vote-icon vote-icon-right hide" src="content/images/vote-icon.png" />
-                <h2 class="js-room-name-2">Room 2</h2>
-                <span class="js-vote-count-2"></span>
             </div>
         </div>
     </div>

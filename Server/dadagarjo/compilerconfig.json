@@ -1,7 +1,7 @@
 [
   {
-    "outputFile": "Styles/styles.css",
     "inputFile": "Styles/styles.scss",
-    "sourceMap": false
+    "outputFile": "Styles/styles.css",
+    "sourceMap": true
   }
 ]
